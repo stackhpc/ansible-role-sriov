@@ -1,0 +1,15 @@
+---
+
+- name: Check current settings
+  command: mlxconfig -d {{ device }} q
+  register: mlxconfig_result
+  become: true
+  changed_when: false
+
+- name: Enable SR-IOV with mlxconfig
+  command: mlxconfig -y -d {{ device }} set SRIOV_EN=1 NUM_OF_VFS={{ sriov_numvfs }}
+  become: true
+  vars:
+    sriov_enabled: "{{ mlxconfig_result.stdout | regex_search('^.*SRIOV_EN.*True.*$', multiline=True) }}"
+  when: not sriov_enabled
+  notify: "{{ sriov_restart_handler }}"

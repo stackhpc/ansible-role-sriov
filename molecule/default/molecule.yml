@@ -14,6 +14,8 @@ platforms:
     privileged: true
 provisioner:
   name: ansible
+  ansible_args:
+    - --skip-tags=skip_when_testing
   options:
     become: true
   lint:

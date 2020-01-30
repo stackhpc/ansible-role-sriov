@@ -1,6 +1,7 @@
 ---
 galaxy_info:
 
+  role_name: sriov
   author: Will Szumski
   description: Ansible role to enable SR-IOV
 

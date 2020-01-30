@@ -1,2 +1,8 @@
 ---
-# tasks file for stackhpc.sriov
+
+- name: Install MFT dependencies
+  yum:
+    name: "{{ sriov_os_pkgs }}"
+  become: true
+
+- include: "{{ sriov_action | default('all') }}.yml"

@@ -3,3 +3,8 @@
   hosts: all
   roles:
     - role: stackhpc.sriov
+  handlers:
+    - name: Simulate reboot
+      listen: reboot
+      debug:
+        msg: "Simulating reboot"
