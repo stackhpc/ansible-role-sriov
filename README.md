@@ -14,6 +14,7 @@ The following pip packages:
 
 - `xmltodict` (FIXME: use sysfs instead of lshw)
 - `lxml`
+- `jmespath`
 
 Role Variables
 --------------
