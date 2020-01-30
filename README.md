@@ -1,6 +1,8 @@
 stackhpc.sriov
 ==============
 
+[![Build Status](https://travis-ci.com/stackhpc/ansible-role-sriov.svg?branch=master)](https://travis-ci.com/stackhpc/ansible-role-sriov)
+
 Ansible role to enable SR-IOV. Currently only mellanox cards are supported.
 
 Requirements
