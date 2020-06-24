@@ -7,16 +7,7 @@ Ansible role to enable SR-IOV. Currently only mellanox cards are supported.
 
 Requirements
 ------------
-
-The following programs:
-
-- `lshw`
-
-The following pip packages:
-
-- `xmltodict` (FIXME: use sysfs instead of lshw)
-- `lxml`
-- `jmespath`
+None
 
 Role Variables
 --------------
