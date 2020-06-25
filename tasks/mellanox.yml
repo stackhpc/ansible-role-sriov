@@ -1,7 +1,7 @@
 ---
 
 - name: Determine list of pci addresses
-  shell: grep PCI_SLOT_NAME /sys/class/net/{{ item }}/device/uevent
+  command: grep PCI_SLOT_NAME /sys/class/net/{{ item }}/device/uevent
   become: true
   with_items: "{{ sriov_devices | map(attribute='name') | list }}"
   register: network_devices
@@ -23,7 +23,7 @@
     var: sriov_pci_addrs
 
 - name: Determine list of vendor ids
-  slurp: 
+  slurp:
     src: /sys/class/net/{{ item }}/device/vendor
   become: true
   with_items: "{{ sriov_devices | map(attribute='name') | list }}"
@@ -32,7 +32,9 @@
 
 - name: Set default value for sriov_pci_addrs
   set_fact:
-    device_meta: "{{ sriov_devices | map(attribute='name') | zip(vendors.results | map(attribute='content') | map ('b64decode') | map('trim'), sriov_pci_addrs) | list }}"
+    device_meta: "{{ sriov_devices | map(attribute='name')
+      | zip(vendors.results | map(attribute='content') | map ('b64decode')
+      | map('trim'), sriov_pci_addrs) | list }}"
 
 - debug:
     var: device_meta
