@@ -9,7 +9,6 @@ sriov_mft_url: http://www.mellanox.com/downloads/MFT/mft-4.13.0-104-x86_64-rpm.t
 sriov_mft_tarball: "{{ sriov_mft_url | urlsplit('path') | basename }}"
 
 sriov_os_pkgs:
-  - lshw
   - gcc
   - rpm-build
   # -E- Could not find lspci, you may need to install "pciutils" package
@@ -17,7 +16,6 @@ sriov_os_pkgs:
   # NOTE(wszumski): Assumes running latest kernel. We could include package version with
   # output of uname -r, but the packages aren't always available.
   - kernel-devel
-  - python-lxml
   - make
 
 sriov_restart_handler: "reboot"
@@ -25,3 +23,6 @@ sriov_restart_handler: "reboot"
 sriov_numvfs: 8
 
 sriov_udev_rule_path: /etc/udev/rules.d/70-sriov.rules
+
+sriov_mellanox_vendor_ids:
+  - "0x15b3"
