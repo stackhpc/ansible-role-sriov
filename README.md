@@ -3,7 +3,7 @@ stackhpc.sriov
 
 [![Build Status](https://travis-ci.com/stackhpc/ansible-role-sriov.svg?branch=master)](https://travis-ci.com/stackhpc/ansible-role-sriov)
 
-Ansible role to enable SR-IOV. Currently only mellanox cards are supported.
+Ansible role to enable SR-IOV on network devices.
 
 Requirements
 ------------
@@ -27,7 +27,8 @@ Example Playbook
   hosts: compute
   vars:
     sriov_devices:
-      - p4p1
+      - name: p4p1
+        numvfs: 63
   tasks:
     - include_role:
         name: sriov
@@ -39,7 +40,7 @@ Example Playbook
 License
 -------
 
-Apache
+Apache2
 
 Author Information
 ------------------
