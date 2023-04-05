@@ -56,9 +56,18 @@
   changed_when: false
 
 - name: Enable SR-IOV with mlxconfig
-  command: mlxconfig -y -d {{ pci_addr }} set SRIOV_EN=1 NUM_OF_VFS={{ sriov_numvfs }}
+  command: mlxconfig -y -d {{ pci_addr }} set SRIOV_EN=1
   become: true
   vars:
     sriov_enabled: "{{ mlxconfig_result.stdout | regex_search('^.*SRIOV_EN.*True.*$', multiline=True) }}"
   when: not sriov_enabled
+  notify: "{{ sriov_restart_handler }}"
+
+- name: Set numvfs with mlxconfig
+  command: mlxconfig -y -d {{ pci_addr }} set NUM_OF_VFS={{ sriov_numvfs }}
+  become: true
+  vars:
+    regex: '^.*NUM_OF_VFS.*?{{ sriov_numvfs }}.*$'
+    num_of_vfs: "{{ mlxconfig_result.stdout | regex_search(regex, multiline=True) }}"
+  when: not num_of_vfs
   notify: "{{ sriov_restart_handler }}"
