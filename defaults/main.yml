@@ -2,7 +2,7 @@
 # List of NICs to configure
 sriov_devices: []
 
-sriov_workdir: "{{ ansible_env.HOME}}/.sriov"
+sriov_workdir: "{{ ansible_facts.env.HOME}}/.sriov"
 
 sriov_mft_url: http://www.mellanox.com/downloads/MFT/mft-4.13.0-104-x86_64-rpm.tgz
 
