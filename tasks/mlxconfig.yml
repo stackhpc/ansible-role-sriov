@@ -4,17 +4,24 @@
   yum:
     name: "{{ sriov_os_pkgs }}"
   become: true
+  when: sriov_install_enabled
 
 - name: Make working directory
   file:
     state: directory
     path: "{{ sriov_workdir }}"
+  when: sriov_install_enabled
 
 - name: Download MFT
+  vars:
+    # Strip the file extension
+    no_ext: "{{ (sriov_mft_tarball | splitext)[0] }}"
   unarchive:
     src: "{{ sriov_mft_url }}"
     dest: "{{ sriov_workdir }}"
     remote_src: true
+    creates: "{{ sriov_workdir }}/{{ no_ext }}"
+  when: sriov_install_enabled
 
 - name: Determine if we can run mst_status
   command: mst status
@@ -30,7 +37,9 @@
     no_ext: "{{ (sriov_mft_tarball | splitext)[0] }}"
   become: true
   register: mft_install_result
-  when: mst_status_result.rc != 0
+  when:
+    - sriov_install_enabled
+    - mst_status_result.rc != 0
 
 - name: "Run: mst start"
   command: mst start

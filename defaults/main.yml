@@ -26,3 +26,7 @@ sriov_udev_rule_path: /etc/udev/rules.d/70-sriov.rules
 
 sriov_mellanox_vendor_ids:
   - "0x15b3"
+
+# Flag to skip installing any software dependencies. This may be useful if you
+# are providing them by some other means.
+sriov_install_enabled: true
