@@ -29,6 +29,10 @@ Example Playbook
     sriov_devices:
       - name: p4p1
         numvfs: 63
+      - name: p3p1
+        numvfs: 8
+        # Don't add a udev rule to set numvfs
+        on_boot_configuration_enabled: false
   tasks:
     - include_role:
         name: sriov
