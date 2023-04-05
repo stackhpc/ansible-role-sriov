@@ -25,3 +25,14 @@
       - ^intel_iommu=
     kernel_restart_handler: "{{ sriov_restart_handler }}"
   when: "'Intel' in ansible_facts.processor.0"
+
+- name: Set iommu=pt
+  include_role:
+    name: stackhpc.grubcmdline
+  tags: skip_when_testing
+  vars:
+    kernel_cmdline:
+      - iommu=pt
+    kernel_cmdline_remove:
+      - ^iommu=pt
+    kernel_restart_handler: "{{ sriov_restart_handler }}"

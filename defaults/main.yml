@@ -30,3 +30,6 @@ sriov_mellanox_vendor_ids:
 # Flag to skip installing any software dependencies. This may be useful if you
 # are providing them by some other means.
 sriov_install_enabled: true
+
+# Set iommu=pt on the kernel cmdline
+sriov_iommu_pt_enabled: true
