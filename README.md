@@ -31,7 +31,9 @@ Example Playbook
         numvfs: 63
       - name: p3p1
         numvfs: 8
-        # Don't add a udev rule to set numvfs
+        # Don't add a udev rule to set numvfs. This can be useful if you use an alternative method
+        # to set the number of virtual functions e.g some custom scripts to enable VFLAG, but want
+        # to use the role to set firmware parameters.
         on_boot_configuration_enabled: false
   tasks:
     - include_role:
