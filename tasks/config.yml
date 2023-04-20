@@ -3,8 +3,10 @@
   blockinfile:
     path: "{{ sriov_udev_rule_path }}"
     block: |
-      {% for device in sriov_devices %}
+      {% for device in sriov_devices  %}
+      {% if device.on_boot_configuration_enabled | default(true) | bool %}
       SUBSYSTEM=="net", ACTION=="add", KERNEL=="{{ device.name }}", RUN+="/usr/bin/sh -c 'echo {{ device.numvfs | default(sriov_numvfs) }} > /sys/class/net/{{ device.name }}/device/sriov_numvfs'"
+      {% endif %}
       {% endfor %}
     marker_begin: BEGIN SRIOV
     mode: 0644
@@ -14,7 +16,7 @@
   become: true
   notify: "{{ sriov_restart_handler }}"
 
-- name: Add iommu to kernel command line
+- name: Add iommu to kernel command line (Intel)
   include_role:
     name: stackhpc.grubcmdline
   tags: skip_when_testing
@@ -23,4 +25,16 @@
       - intel_iommu=on
     kernel_cmdline_remove:
       - ^intel_iommu=
+    kernel_restart_handler: "{{ sriov_restart_handler }}"
+  when: "'Intel' in ansible_facts.processor.0"
+
+- name: Set iommu=pt
+  include_role:
+    name: stackhpc.grubcmdline
+  tags: skip_when_testing
+  vars:
+    kernel_cmdline:
+      - iommu=pt
+    kernel_cmdline_remove:
+      - ^iommu=
     kernel_restart_handler: "{{ sriov_restart_handler }}"

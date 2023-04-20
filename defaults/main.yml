@@ -2,9 +2,9 @@
 # List of NICs to configure
 sriov_devices: []
 
-sriov_workdir: "{{ ansible_env.HOME}}/.sriov"
+sriov_workdir: "{{ ansible_facts.env.HOME}}/.sriov"
 
-sriov_mft_url: http://www.mellanox.com/downloads/MFT/mft-4.13.0-104-x86_64-rpm.tgz
+sriov_mft_url: https://www.mellanox.com/downloads/MFT/mft-4.23.0-104-x86_64-rpm.tgz
 
 sriov_mft_tarball: "{{ sriov_mft_url | urlsplit('path') | basename }}"
 
@@ -26,3 +26,10 @@ sriov_udev_rule_path: /etc/udev/rules.d/70-sriov.rules
 
 sriov_mellanox_vendor_ids:
   - "0x15b3"
+
+# Flag to skip installing any software dependencies. This may be useful if you
+# are providing them by some other means.
+sriov_install_enabled: true
+
+# Set iommu=pt on the kernel cmdline
+sriov_iommu_pt_enabled: true

@@ -33,15 +33,16 @@
 - name: Set default value for sriov_pci_addrs
   set_fact:
     device_meta: "{{ sriov_devices | map(attribute='name')
-      | zip(vendors.results | map(attribute='content') | map ('b64decode')
-      | map('trim'), sriov_pci_addrs) | list }}"
+      | zip(vendors.results | map(attribute='content') | map ('b64decode') | map('trim'), sriov_pci_addrs, sriov_devices | map(attribute='numvfs', default=sriov_numvfs))
+      | list }}"
 
 - debug:
     var: device_meta
 
 - include_tasks: mlxconfig.yml
-  # e.g item=(u'enp3s0f1', u'0x15b3', u'0000:03:00.1')
+  # e.g item=(u'enp3s0f1', u'0x15b3', u'0000:03:00.1', 31)
   vars:
     pci_addr: "{{ item[2] }}"
+    sriov_numvfs: "{{ item[3] }}"
   loop: "{{ device_meta }}"
   when: item[1] in sriov_mellanox_vendor_ids
