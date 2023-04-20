@@ -36,5 +36,5 @@
     kernel_cmdline:
       - iommu=pt
     kernel_cmdline_remove:
-      - ^iommu=pt
+      - ^iommu=
     kernel_restart_handler: "{{ sriov_restart_handler }}"
